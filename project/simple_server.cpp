@@ -30,7 +30,7 @@ int main(int argc, char *argv[])
         error("ERROR opening socket");
      bzero((char *) &serv_addr, sizeof(serv_addr));
      // portno = atoi(argv[1]);
-     portno = 5555
+     portno = 5555;
      serv_addr.sin_family = AF_INET;
      serv_addr.sin_addr.s_addr = INADDR_ANY;
      serv_addr.sin_port = htons(portno);

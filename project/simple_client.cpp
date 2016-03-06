@@ -25,12 +25,12 @@ int main(int argc, char *argv[])
        exit(0);
     }
     // portno = atoi(argv[2]);
-    portno = 5555
+    portno = 5555;
     sockfd = socket(AF_INET, SOCK_STREAM, 0);
     if (sockfd < 0) 
         error("ERROR opening socket");
     // server = gethostbyname(argv[1]);
-    server = gethostbyname("104.197.119.249")
+    server = gethostbyname("104.197.119.249");
     if (server == NULL) {
         fprintf(stderr,"ERROR, no such host\n");
         exit(0);
