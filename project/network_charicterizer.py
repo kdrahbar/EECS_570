@@ -1,4 +1,7 @@
+import pylab as plt
 import operator
+import math
+
 input_file = "CE_server.txt"
 
 def get_time(line):
@@ -112,6 +115,21 @@ class NetworkCharicterizer():
             self.ftrace_counts.pop(entry, None)
 
 
+    def graph_ftrace(self, n):
+        sored_times = sorted(self.ftrace_time.items(), key=operator.itemgetter(1))[-(n+1):]
+        sored_times = sored_times[:n]
+        position = range(1, n+1)
+        total_times = [math.log(x[1]) for x in sored_times]
+        LABELS = [x[0] for x in sored_times]
+
+        fig = plt.figure()
+        plt.bar(position, total_times, align='center')
+        plt.xticks(position, LABELS, fontsize=5)
+        fig.suptitle('GCE Server Time Spent in Kernel Calls', fontsize=20)
+        plt.xlabel('Funciton Name', fontsize=12)
+        plt.ylabel('Time (us)', fontsize=12)
+        plt.show()
+
 
 if __name__ == "__main__":
     characterizer = NetworkCharicterizer(ftrace_input=input_file)
@@ -121,7 +139,9 @@ if __name__ == "__main__":
     sored_times = sorted(characterizer.ftrace_time.items(), key=operator.itemgetter(1))
     print characterizer.ftrace_time["free_hot_cold_page()"]
     print characterizer.ftrace_time["release_pages()"]
+    characterizer.graph_ftrace(10)
     print sored_times
+
     # print sored_times
 
     # print characterizer.ftrace_time
