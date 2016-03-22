@@ -35,7 +35,7 @@ int main(int argc, char *argv[])
     if (sockfd < 0) 
         error("ERROR opening socket");
     
-    inet_pton(AF_INET, "104.197.119.249", &ipv4addr);
+    inet_pton(AF_INET, "10.128.0.2", &ipv4addr);
     server = gethostbyaddr(&ipv4addr, sizeof ipv4addr, AF_INET);
     // server = gethostbyname(argv[1]);
     // server = gethostbyname("104.197.119.249");
@@ -45,7 +45,8 @@ int main(int argc, char *argv[])
     }
     bzero((char *) &serv_addr, sizeof(serv_addr));
     serv_addr.sin_family = AF_INET;
-	char* addr = "104.197.119.249";
+	char* addr = "10.128.0.2";
+	//char* addr = "104.197.119.249";
 
     //bcopy((char *)server->h_addr, 
     bcopy((char *)addr, 
