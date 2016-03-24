@@ -32,7 +32,7 @@ int main(int argc, char *argv[])
      std::string server_pnum;
      portnum_file.open("server_portnum.txt", std::ios::in);
      if(getline(portnum_file, server_pnum))
-        portno = std::stoi(server_pnum);
+        portno = atoi(server_pnum.c_str());
 
      // if (argc < 2) {
      //     fprintf(stderr,"ERROR, no port provided\n");
