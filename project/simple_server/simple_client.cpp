@@ -43,7 +43,9 @@ int main(int argc, char *argv[])
     int year = aTime->tm_year + 1900; // Year is # years since 1900
     int hour=aTime->tm_hour;
 
-    portno = 5555;
+    // portno = 5555;
+    char * portno_str = argv[1];
+    portno = atoi(portno_str);
     start = std::clock();
     sockfd = socket(AF_INET, SOCK_STREAM, 0);
     if (sockfd < 0) 
@@ -77,7 +79,8 @@ int main(int argc, char *argv[])
     
     bzero(buffer,256);
     fgets(buffer,255, pFile);
-    n = write(sockfd,buffer,strlen(buffer));
+    // n = write(sockfd,buffer,strlen(buffer));
+    n = write(sockfd,portno_str,strlen(portno_str));
     
     if (n < 0) 
          error("ERROR writing to socket");
