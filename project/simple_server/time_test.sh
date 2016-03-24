@@ -8,7 +8,7 @@ if [ $1 = "server" ]; then
 	g++ ${file_name} -o ${executable_name}
 	
 	until $executable; do
-	    sleep .1
+	    sleep 3
 	done
 fi
 
@@ -21,7 +21,7 @@ if [ $1 = "client" ]; then
 	until $executable; do
 		for ((i=1;i<=END;i++)); do
 		    ./${executable_name}
-		    sleep 3
+		    sleep 17
 		done
 	    sleep 3600
 	done
