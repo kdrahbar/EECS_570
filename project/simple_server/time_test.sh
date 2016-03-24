@@ -8,9 +8,12 @@ if [ $1 = "server" ]; then
 	rm ${executable_name}
 	g++ ${file_name} -o ${executable_name}
 	
-	until $executable; do
-	    sleep 1
+	while true; do
+		./${executable_name}
 	done
+	# until $executable; do
+	#     sleep 1
+	# done
 fi
 
 if [ $1 = "client" ]; then
