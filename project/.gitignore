@@ -2,3 +2,4 @@ a.out
 simple_server/a.out
 simple_server/simpleClient
 simple_server/simpleServer
+simple_server/server_portnum.txt

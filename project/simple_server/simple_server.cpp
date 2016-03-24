@@ -9,6 +9,8 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <ctime>
+#include <fstream>
+#include <iostream>
 
 
 void error(const char *msg)
@@ -19,12 +21,18 @@ void error(const char *msg)
 
 int main(int argc, char *argv[])
 {
-      std::clock_t    start;
+     std::clock_t start;
      int sockfd, newsockfd, portno;
      socklen_t clilen;
      char buffer[256];
      struct sockaddr_in serv_addr, cli_addr;
      int n;
+     
+     std::ifstream portnum_file;
+     std::string server_pnum;
+     portnum_file.open("server_portnum.txt", std::ios::in);
+     if(getline(portnum_file, server_pnum))
+        portno = std::stoi(server_pnum);
 
      // if (argc < 2) {
      //     fprintf(stderr,"ERROR, no port provided\n");
@@ -38,7 +46,7 @@ int main(int argc, char *argv[])
      if (sockfd < 0) 
         error("ERROR opening socket");
      bzero((char *) &serv_addr, sizeof(serv_addr));
-     portno = atoi(argv[1]);
+     // portno = atoi(argv[1]);
      // portno = 5555;
 
      serv_addr.sin_family = AF_INET;
@@ -68,6 +76,10 @@ int main(int argc, char *argv[])
  
      close(newsockfd);
      close(sockfd);
+
+    std::ofstream port_number_file;
+    port_number_file.open("server_portnum.txt");
+    port_number_file << buffer << std::endl;
 
      return 2; 
 }
