@@ -1,3 +1,7 @@
+/.backup_client.cpp
+simple_server/client_timings.txt
+simple_server/gce_simple_client.cpp
+test.cpp
 a.out
 simple_server/a.out
 simple_server/simpleClient
