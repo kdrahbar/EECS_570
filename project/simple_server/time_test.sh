@@ -17,7 +17,7 @@ if [ $1 = "server" ]; then
 fi
 
 if [ $1 = "client" ]; then
-	declare -a ports=("5556" "5557" "5558" "5559" "5560" "5561" "5562" "5563" "5564")
+	# declare -a ports=("5556" "5557" "5558" "5559" "5560" "5561" "5562" "5563" "5564")
 	file_name="simple_client.cpp"
 	executable="./simpleClient 5555"
 	executable_name="simpleClient"
@@ -25,7 +25,9 @@ if [ $1 = "client" ]; then
 	g++ ${file_name} -o ${executable_name}
 	
 	while true; do
-		for i in "${ports[@]}"
+		
+		# for i in "${ports[@]}"
+		for i in 5556 5557 5558 5559 5560 5561 5562 5563 5564
 		do
 			new_con="$executable_name $i"
 			./${new_con}
