@@ -81,7 +81,7 @@ int main(int argc, char *argv[])
     std::ofstream port_number_file;
     port_number_file.open("server_portnum.txt");
     int pnum = atoi(buffer) + 1;
-    if pnum > last_portno {
+    if (pnum > last_portno) {
         pnum = 5556;
     }
     port_number_file << pnum << std::endl;
