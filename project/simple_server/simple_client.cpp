@@ -34,6 +34,15 @@ int main(int argc, char *argv[])
     // }
 
     // portno = atoi(argv[2]);
+
+    time_t theTime = time(NULL);
+    struct tm *aTime = localtime(&theTime);
+
+    int day = aTime->tm_mday;
+    int month = aTime->tm_mon + 1; // Month is 0 – 11, add 1 to get a jan-dec 1-12 concept
+    int year = aTime->tm_year + 1900; // Year is # years since 1900
+    int hour=aTime->tm_hour;
+
     portno = 5555;
     start = std::clock();
     sockfd = socket(AF_INET, SOCK_STREAM, 0);
@@ -79,9 +88,10 @@ int main(int argc, char *argv[])
     close(sockfd);
     
     // std::cout << "Time: " << (std::clock() - start) / (double)(CLOCKS_PER_SEC / 1000) << " ms" << std::endl;
+    
     std::ofstream logging;
     logging.open("client_timings.txt", std::ios_base::app);
-    logging << "Time: " << (std::clock() - start) / (double)(CLOCKS_PER_SEC / 1000) << " ms" << std::endl;
+    logging << hour << (std::clock() - start) / (double)(CLOCKS_PER_SEC / 1000) << " ms" << std::endl;
 
     
     return 0;
