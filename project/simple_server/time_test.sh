@@ -27,10 +27,12 @@ if [ $1 = "client" ]; then
 	while true; do
 		for i in "${ports[@]}"
 		do
-		   new_con="./$executable_name $i"
-		   until $new_con; do
-		       echo "just finished time to wait"
-		   done
+			new_con="$executable_name $i"
+			./${new_con}
+		   # new_con="./$executable_name $i"
+		   # until $new_con; do
+		   #     echo "just finished time to wait"
+		   # done
 		   sleep 5
 		done
 	    sleep 3600
