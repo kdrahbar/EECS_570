@@ -32,7 +32,7 @@ int main(int argc, char *argv[])
      // }
      
      start = std::clock();
-     while (true) {
+
      sockfd = socket(AF_INET, SOCK_STREAM, 0);
      
      if (sockfd < 0) 
@@ -68,7 +68,7 @@ int main(int argc, char *argv[])
      
      close(newsockfd);
      close(sockfd);
-     }
+
      std::cout << "Time: " << (std::clock() - start) / (double)(CLOCKS_PER_SEC / 1000) << " ms" << std::endl;
      return 0; 
 }
