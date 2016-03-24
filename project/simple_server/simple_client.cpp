@@ -7,6 +7,7 @@
 #include <netinet/in.h>
 #include <netdb.h> 
 #include <arpa/inet.h>
+#include <ctime>
 
 void error(const char *msg)
 {
@@ -16,6 +17,7 @@ void error(const char *msg)
 
 int main(int argc, char *argv[])
 {
+    std::clock_t    start;
     int sockfd, portno, n;
     struct sockaddr_in serv_addr;
 
@@ -31,6 +33,7 @@ int main(int argc, char *argv[])
 
     // portno = atoi(argv[2]);
     portno = 5555;
+    start = std::clock();
     sockfd = socket(AF_INET, SOCK_STREAM, 0);
     if (sockfd < 0) 
         error("ERROR opening socket");
@@ -72,5 +75,12 @@ int main(int argc, char *argv[])
          error("ERROR reading from socket");
     //printf("%s\n",buffer);
     close(sockfd);
+    
+    // std::cout << "Time: " << (std::clock() - start) / (double)(CLOCKS_PER_SEC / 1000) << " ms" << std::endl;
+    std::ofstream logging;
+    logging.open("client_timings.txt", std::ios_base::app);
+    logging << "Time: " << (std::clock() - start) / (double)(CLOCKS_PER_SEC / 1000) << " ms" << std::endl;
+
+    
     return 0;
 }
