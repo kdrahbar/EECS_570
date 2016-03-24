@@ -89,11 +89,12 @@ int main(int argc, char *argv[])
     
     //printf("%s\n",buffer);
     close(sockfd);
-    
+    double rountrip_time = (std::clock() - start) / (double)(CLOCKS_PER_SEC / 1000);
     
     std::ofstream logging;
     logging.open("client_timings.txt", std::ios_base::app);
-    logging << hour << " " << (std::clock() - start) / (double)(CLOCKS_PER_SEC / 1000) << " ms" << std::endl;
+
+    logging << hour << " " << rountrip_time << " ms" << std::endl;
 
     
     return 2;
