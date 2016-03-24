@@ -14,7 +14,7 @@
 void error(const char *msg)
 {
     perror(msg);
-    exit(0);
+    exit(2);
 }
 
 int main(int argc, char *argv[])
@@ -96,5 +96,5 @@ int main(int argc, char *argv[])
     logging << hour << " " << (std::clock() - start) / (double)(CLOCKS_PER_SEC / 1000) << " ms" << std::endl;
 
     
-    return 0;
+    return 2;
 }
