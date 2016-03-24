@@ -22,22 +22,19 @@ if [ $1 = "client" ]; then
 	g++ ${file_name} -o ${executable_name}
 	
 	while true; do
-#	until $executable; do
 		for i in "${ports[@]}"
 		do
 		   new_con="./$executable_name $i"
-		   # new_con="$executable_name $i"
-		   # ./${new_con}
 		   until $new_con; do
-		   	echo "just finished time to wait"
+		       echo "just finished time to wait"
 		   done
 		   sleep 5
 		done
-		# for ((i=5555;i<=END;i++)); do
-		#     ./${executable_name} i
-		#     sleep 2
-		# done
 	    sleep 3600
 	done
 fi
 
+# for ((i=5555;i<=END;i++)); do
+		#     ./${executable_name} i
+		#     sleep 2
+		# done

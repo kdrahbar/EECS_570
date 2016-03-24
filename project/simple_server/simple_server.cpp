@@ -27,6 +27,7 @@ int main(int argc, char *argv[])
      char buffer[256];
      struct sockaddr_in serv_addr, cli_addr;
      int n;
+     int last_portno = 5564;
      
      std::ifstream portnum_file;
      std::string server_pnum;
@@ -70,8 +71,8 @@ int main(int argc, char *argv[])
      
  	 n = read(newsockfd,buffer,255);
      if (n < 0) error("ERROR reading from socket");
-     printf("Here is the message: %s\n",buffer);
-     n = write(newsockfd,"I got your message",18);
+     // printf("Here is the message: %s\n",buffer);
+     n = write(newsockfd,"ack",18);
      if (n < 0) error("ERROR writing to socket");
  
      close(newsockfd);
@@ -80,6 +81,9 @@ int main(int argc, char *argv[])
     std::ofstream port_number_file;
     port_number_file.open("server_portnum.txt");
     int pnum = atoi(buffer) + 1;
+    if pnum > last_portno {
+        pnum = 5556;
+    }
     port_number_file << pnum << std::endl;
 
      return 2; 
