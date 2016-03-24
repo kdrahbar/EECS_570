@@ -32,6 +32,7 @@ int main(int argc, char *argv[])
      // }
      
      start = std::clock();
+     while (true) {
      sockfd = socket(AF_INET, SOCK_STREAM, 0);
      
      if (sockfd < 0) 
@@ -58,15 +59,16 @@ int main(int argc, char *argv[])
           error("ERROR on accept");
      bzero(buffer,256);
 
-     while (true) {
+     
      	 n = read(newsockfd,buffer,255);
          if (n < 0) error("ERROR reading from socket");
          printf("Here is the message: %s\n",buffer);
          n = write(newsockfd,"I got your message",18);
          if (n < 0) error("ERROR writing to socket");
-     }
+     
      close(newsockfd);
      close(sockfd);
+     }
      std::cout << "Time: " << (std::clock() - start) / (double)(CLOCKS_PER_SEC / 1000) << " ms" << std::endl;
      return 0; 
 }
