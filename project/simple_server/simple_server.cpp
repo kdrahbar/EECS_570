@@ -79,7 +79,8 @@ int main(int argc, char *argv[])
 
     std::ofstream port_number_file;
     port_number_file.open("server_portnum.txt");
-    port_number_file << buffer << std::endl;
+    int pnum = atoi(buffer) + 1;
+    port_number_file << pnum << std::endl;
 
      return 2; 
 }
