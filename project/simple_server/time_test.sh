@@ -9,7 +9,11 @@ if [ $1 = "server" ]; then
 	g++ ${file_name} -o ${executable_name}
 	
 	while true; do
-		./${executable_name}
+		for i in 1 2 3 4 5 6 7 8 9
+		do
+			./${executable_name}
+		done
+		sleep 120
 	done
 fi
 
