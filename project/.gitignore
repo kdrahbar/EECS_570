@@ -1,9 +1,10 @@
 /.backup_client.cpp
-simple_server/client_timings.txt
-simple_server/gce_simple_client.cpp
+tests/simple_server/client_timings.txt
+tests/simple_server/gce_simple_client.cpp
 test.cpp
 a.out
-simple_server/a.out
-simple_server/simpleClient
-simple_server/simpleServer
-simple_server/server_portnum.txt
+tests/simple_server/a.out
+tests/simple_server/simpleClient
+tests/simple_server/simpleServer
+tests/simple_server/server_portnum.txt
+tests/simple_server/nohup.out
