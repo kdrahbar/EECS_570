@@ -1,3 +1,6 @@
+####
+# End is the end of the range for port nums used
+####
 END=5565
 file_name=""
 executable=""
