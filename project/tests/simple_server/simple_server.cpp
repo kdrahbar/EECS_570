@@ -84,7 +84,7 @@ int main(int argc, char *argv[])
     if (pnum > last_portno) {
         pnum = 5556;
     }
-    port_number_file << pnum << std::endl;
+    // port_number_file << pnum << std::endl;
 
      return 2; 
 }
