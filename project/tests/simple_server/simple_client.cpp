@@ -74,7 +74,7 @@ int main(int argc, char *argv[])
     
     FILE * pFile;
 
-    pFile = fopen ("sample_message.txt" , "r");
+    pFile = fopen ("1MB_rand.txt" , "r");
     if (pFile == NULL) perror ("Error opening file");
     
     bzero(buffer,256);
