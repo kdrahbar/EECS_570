@@ -9,6 +9,8 @@
 #include <arpa/inet.h>
 #include <ctime>
 #include <fstream>
+#include <time.h>
+#include <sys/time.h>
 
 void error(const char *msg)
 {
@@ -18,7 +20,7 @@ void error(const char *msg)
 
 int main(int argc, char *argv[])
 {
-    std::clock_t    start;
+    //std::clock_t    start;
     int sockfd, portno, n;
     struct sockaddr_in serv_addr;
 
@@ -35,15 +37,19 @@ int main(int argc, char *argv[])
     int year = aTime->tm_year + 1900;
     int hour=aTime->tm_hour;
 
+    struct timeval start, end;
+
+
     char * portno_str = argv[1];
     printf("starting on %s\n",portno_str);
     portno = atoi(portno_str);
-    start = std::clock();
+    gettimeofday(&start, NULL);
+    //start = std::clock();
     sockfd = socket(AF_INET, SOCK_STREAM, 0);
     if (sockfd < 0) 
         error("ERROR opening socket");
     
-    inet_pton(AF_INET, "10.128.0.2", &ipv4addr);
+    inet_pton(AF_INET, "54.152.45.231", &ipv4addr);
     server = gethostbyaddr(&ipv4addr, sizeof ipv4addr, AF_INET);
     if (server == NULL) {
         error("ERROR, no such host\n");
@@ -80,12 +86,17 @@ int main(int argc, char *argv[])
          error("ERROR reading from socket");
     
     close(sockfd);
-    double rountrip_time = (std::clock() - start) / (double)(CLOCKS_PER_SEC / 1000);
+    //double rountrip_time = (std::clock() - start) / (double)(CLOCKS_PER_SEC / 1000);
+    gettimeofday(&end, NULL); 
+    //printf("RoundTrip: %d\n ", rountrip_time);
     
+  printf("%ld\n", ((end.tv_sec * 1000000 + end.tv_usec)
+		  - (start.tv_sec * 1000000 + start.tv_usec)));
+
     std::ofstream logging;
     logging.open("client_timings.txt", std::ios_base::app);
 
-    logging << hour << " " << rountrip_time << " ms" << std::endl;
+    //logging << hour << " " << rountrip_time << " ms" << std::endl;
 
     
     return 0;
