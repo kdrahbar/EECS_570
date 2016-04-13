@@ -9,6 +9,7 @@
 #include <arpa/inet.h>
 #include <ctime>
 #include <fstream>
+#include <time.h>
 
 void error(const char *msg)
 {
@@ -18,7 +19,6 @@ void error(const char *msg)
 
 int main(int argc, char *argv[])
 {
-    std::clock_t    start;
     int sockfd, portno, n;
     struct sockaddr_in serv_addr;
 
@@ -33,7 +33,10 @@ int main(int argc, char *argv[])
     // }
 
     // portno = atoi(argv[2]);
-
+  
+    // Timing Variables
+    struct timespec start, end;  
+    
     time_t theTime = time(NULL);
     struct tm *aTime = localtime(&theTime);
 
@@ -46,7 +49,7 @@ int main(int argc, char *argv[])
     char * portno_str = argv[1];
     printf("starting on %s\n",portno_str);
     portno = atoi(portno_str);
-    start = std::clock();
+    clock_gettime(CLOCK_REALTIME, &start); /*mark start time */
     sockfd = socket(AF_INET, SOCK_STREAM, 0);
     if (sockfd < 0) 
         error("ERROR opening socket");
@@ -92,12 +95,13 @@ int main(int argc, char *argv[])
     
     //printf("%s\n",buffer);
     close(sockfd);
-    double rountrip_time = (std::clock() - start) / (double)(CLOCKS_PER_SEC / 1000);
-    
+    clock_gettime(CLOCK_REALTIME, &end); /* mark the end time */   
+    uint64_t roundtrip_time;
+    roundtrip_time=end.tv_nsec - start.tv_nsec;
     std::ofstream logging;
     logging.open("client_timings.txt", std::ios_base::app);
 
-    logging << hour << " " << rountrip_time << " ms" << std::endl;
+    logging << hour << " " << roundtrip_time << " ms" << std::endl;
 
     
     return 0;
