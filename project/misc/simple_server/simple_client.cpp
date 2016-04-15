@@ -54,7 +54,7 @@ int main(int argc, char *argv[])
     if (sockfd < 0) 
         error("ERROR opening socket");
     
-    inet_pton(AF_INET, "10.128.0.2", &ipv4addr);
+    inet_pton(AF_INET, "10.128.0.3", &ipv4addr);
     server = gethostbyaddr(&ipv4addr, sizeof ipv4addr, AF_INET);
     // server = gethostbyname(argv[1]);
     // server = gethostbyname("104.197.119.249");
@@ -101,8 +101,8 @@ int main(int argc, char *argv[])
     std::ofstream logging;
     logging.open("client_timings.txt", std::ios_base::app);
 
-    logging << hour << " " << roundtrip_time << " ms" << std::endl;
-
+    logging << hour << " " << roundtrip_time << " ns" << std::endl;
+    printf("elapsed time = %llu nanoseconds\n", (long long unsigned int) roundtrip_time);
     
     return 0;
 }
