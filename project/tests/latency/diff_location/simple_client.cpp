@@ -54,7 +54,7 @@ int main(int argc, char *argv[])
     if (sockfd < 0) 
         error("ERROR opening socket");
     
-    inet_pton(AF_INET, "10.128.0.3", &ipv4addr);
+    inet_pton(AF_INET, "54.249.123.99", &ipv4addr);
     server = gethostbyaddr(&ipv4addr, sizeof ipv4addr, AF_INET);
     // server = gethostbyname(argv[1]);
     // server = gethostbyname("104.197.119.249");
