@@ -101,6 +101,9 @@ int main(int argc, char *argv[])
   uint64_t roundtrip_time;
   roundtrip_time=end.tv_nsec - start.tv_nsec;
   printf("elapsed time = %llu nanoseconds\n", (long long unsigned int) roundtrip_time);
-  
+  std::ofstream logging;
+  logging.open("client_timings.txt", std::ios_base::app);
+
+  logging << hour << " " << roundtrip_time << " ns" << std::endl; 
   return 0;
 }
