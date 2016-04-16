@@ -10,7 +10,7 @@
 #include <fcntl.h>
 
 
-#define PORT 4118
+#define PORT 5000
 
 #define MaxBufferLength 1024 // set the size of data you want to recieve from Server
 
@@ -26,7 +26,8 @@ int main()
 
     server.sin_port= htons(PORT);
     server.sin_family = AF_INET;
-    server.sin_addr.s_addr = inet_addr("127.0.0.1");
+    // server.sin_addr.s_addr = inet_addr("127.0.0.1");
+    server.sin_addr.s_addr = INADDR_ANY;
 
     sockFd = socket(AF_INET, SOCK_STREAM, 0);
 
