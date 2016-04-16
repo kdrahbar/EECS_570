@@ -1,8 +1,11 @@
 import pylab as plt
 import operator
 import math
-
-input_file = "CE_strace_server.txt"
+import numpy as np
+import scipy.stats as stats
+from bisect import bisect_left
+from scipy.stats import norm
+import matplotlib.pyplot as pltt
 
 def get_time(line):
     time = None
@@ -114,6 +117,7 @@ class NetworkCharicterizer():
             self.ftrace_time.pop(entry, None)
             self.ftrace_counts.pop(entry, None)
 
+    # n is the number of columns
     def graph_strace(self, n):
         sorted_counts = sorted(self.strace_counts.items(), key=operator.itemgetter(1))[-n:]
         sorted_counts = sorted_counts[:n]
@@ -134,20 +138,74 @@ class NetworkCharicterizer():
         sorted_counts = sorted_counts[:n]
         position = range(1, n+1)
         total_times = [math.log(x[1]) for x in sorted_counts]
+        # total_times = [x[1] for x in sorted_counts]
+        print sum(total_times)
         LABELS = [x[0] for x in sorted_counts]
 
         fig = plt.figure()
         plt.bar(position, total_times, align='center')
-        plt.xticks(position, LABELS, fontsize=5)
+        plt.xticks(position, LABELS, fontsize=3)
         fig.suptitle('GCE Server Time Spent in Kernel Calls', fontsize=20)
         plt.xlabel('Funciton Name', fontsize=12)
         plt.ylabel('Time (us)', fontsize=12)
         plt.show()
 
 
-if __name__ == "__main__":
-    characterizer = NetworkCharicterizer(strace_input=input_file)
-    characterizer.parse_strace()
-    # characterizer.parse_ftrace()
+class discrete_cdf:
+    def __init__(self, data):
+        self._data = data # must be sorted
+        self._data_len = float(len(data))
+
+    def __call__(self, point):
+        return (len(self._data[:bisect_left(self._data, point)]) / 
+                self._data_len)
+
+def distb_plot(input_file):
+
+    h = []
+    with open(input_file) as f:
+        content = f.readlines()
+    for line in content:
+        line = line.split()
+        # divide by 1000000 for gce cuz its in ns for gce
+        h.append(float(line[1])/1000000)
+    h.sort()
     
-    characterizer.graph_strace(10)
+    del h[len(h)-8:]
+    print(h[len(h)/2])
+    hmean = np.mean(h)
+    hstd = np.std(h)
+    print hmean
+    pdf = stats.norm.pdf(h, hmean, hstd)
+
+    pdf_sum = sum(pdf)
+    cdf = [ 1 - (pdf_sum-pdf[0])/pdf_sum ]
+    
+    for i,val in enumerate(pdf):
+        if i > 0:
+            cdf.append(1 - (pdf_sum - pdf[i])/pdf_sum + cdf[i-1] )
+
+    cdf = [1- v for v in cdf]
+    cdf = [0 if v < 0 else v for v in cdf]
+    fig = plt.figure()
+    plt.style.use('ggplot')
+
+    fig.suptitle('Cumulative Distribution Function for Latency on EC2', fontsize=13)
+    
+    plt.ylabel('Cumulative Percent ', fontsize=12)
+    plt.xlabel('Time (ms)', fontsize=12)
+    
+    plt.plot(h, cdf) # including h here is crucial
+    plt.show()
+
+if __name__ == "__main__":
+    # input_file = "../results/ftrace/CE_client.txt"
+    input_file = "../results/ftrace/CE_server.txt"
+    characterizer = NetworkCharicterizer(ftrace_input=input_file)
+    # characterizer.parse_strace()
+    # characterizer.parse_ftrace()
+    # characterizer.graph_ftrace(10)
+    # characterizer.graph_strace(10)
+
+    distb_plot("../tests/latency/same_location/client_timings.txt")
+    # distb_plot("../tests/simple_server/aws_client_timing.txt")
