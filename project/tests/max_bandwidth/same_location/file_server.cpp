@@ -10,7 +10,7 @@
 #include <fcntl.h>
 
 
-#define PORT 5000
+#define PORT 5001
 
 #define MaxBufferLength 1024 // set the size of data you want to recieve from Server
 
