@@ -167,11 +167,7 @@ def distb_plot(input_file):
         content = f.readlines()
     for line in content:
         line = line.split()
-        # divide by 1000000 for gce cuz its in ns for gce
-        if "aws" in input_file:
-            h.append(float(line[1]))
-        else:
-            h.append(float(line[1])/1000000)
+        h.append(float(line[1])/1000000)
     h.sort()
 
     hmean = np.mean(h)
@@ -190,10 +186,7 @@ def distb_plot(input_file):
     fig = plt.figure()
     plt.style.use('ggplot')
 
-    if "aws" in input_file:
-        fig.suptitle('Cumulative Distribution Function for Latency on EC2', fontsize=13)
-    else:
-        fig.suptitle('Cumulative Distribution Function for Latency on GCE', fontsize=13)
+    fig.suptitle('Cumulative Distribution Function for Latency on GCE', fontsize=13)
     
     plt.ylabel('Cumulative Percent ', fontsize=12)
     plt.xlabel('Time (ms)', fontsize=12)
@@ -211,4 +204,3 @@ if __name__ == "__main__":
     # characterizer.graph_strace(10)
 
     distb_plot("../tests/latency/same_location/client_timings.txt")
-    distb_plot("../tests/simple_server/aws_client_timing.txt")
