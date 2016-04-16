@@ -15,67 +15,91 @@
 #define MaxBufferLength 1024 // set the size of data you want to recieve from Server
 
 
+void error(const char *msg)
+{
+    perror(msg);
+    exit(2);
+}
+
+
+
 int main()
 {
-    int sockFd, bytesRead= 1, bytesSent;
+  int sockFd, newsockfd, bytesRead= 1, bytesSent;
 
-    char buffer[MaxBufferLength];
+  char buffer[MaxBufferLength];
 
-    struct sockaddr_in server, client;
+  socklen_t clilen;
 
-
-    server.sin_port= htons(PORT);
-    server.sin_family = AF_INET;
-    // server.sin_addr.s_addr = inet_addr("127.0.0.1");
-    server.sin_addr.s_addr = INADDR_ANY;
-
-    sockFd = socket(AF_INET, SOCK_STREAM, 0);
+  struct sockaddr_in server, client, cli_addr;
 
 
-    if(sockFd < 0)
-        printf("Unable to open socket\n");
+  sockFd = socket(AF_INET, SOCK_STREAM, 0);
 
-    int connectionSocket = connect(sockFd, (struct sockaddr *) &server, sizeof(struct sockaddr) );
+  bzero((char *) &server, sizeof(server));
+  server.sin_port= htons(PORT);
+  server.sin_family = AF_INET;
+  server.sin_addr.s_addr = inet_addr("127.0.0.1");
+  //server.sin_addr.s_addr = INADDR_ANY;
 
-    if(connectionSocket < 0)
-        perror("connection not established\n");
+  if(sockFd < 0)
+      printf("Unable to open socket\n");
 
-
-    int fd = open("helloworlds.txt",O_CREAT | O_WRONLY,S_IRUSR | S_IWUSR);  
-
-    if(fd == -1)
-        perror("couldn't openf iel");
-
-    while(bytesRead > 0)
-    {           
-
-        bytesRead = recv(sockFd, buffer, MaxBufferLength, 0);
-
-        if(bytesRead == 0)
-        {
-
-            break;
-        }
-
-        printf("bytes read %d\n", bytesRead);
-
-        printf("receivnig data\n");
-
-        bytesSent = write(fd, buffer, bytesRead);
+  if (bind(sockFd, (struct sockaddr *) &server,
+            sizeof(server)) < 0)  
+            error("ERROR on binding");
+  
+   listen(sockFd,5);
+   clilen = sizeof(cli_addr);
+   newsockfd = accept(sockFd, 
+               (struct sockaddr *) &cli_addr, 
+               &clilen);
+  
+   if (newsockfd < 0)  
+        error("ERROR on accept");
 
 
-        printf("bytes written %d\n", bytesSent);
+  //int connectionSocket = connect(sockFd, (struct sockaddr *) &server, sizeof(struct sockaddr) );
 
-        if(bytesSent < 0)
-            perror("Failed to send a message");
-
-    }
+  //if(connectionSocket < 0)
+  //    perror("connection not established\n");
 
 
-    close(fd);
+  int fd = open("helloworlds.txt",O_CREAT | O_WRONLY,S_IRUSR | S_IWUSR);  
 
-    close(sockFd);
+  if(fd == -1)
+      perror("couldn't openf iel");
 
-    return 0;
+  while(bytesRead > 0)
+  {           
+
+      bytesRead = recv(newsockfd, buffer, MaxBufferLength, 0);
+
+      if(bytesRead == 0)
+      {
+
+          break;
+      }
+
+      printf("bytes read %d\n", bytesRead);
+
+      printf("receivnig data\n");
+
+      bytesSent = write(fd, buffer, bytesRead);
+
+
+      printf("bytes written %d\n", bytesSent);
+
+      if(bytesSent < 0)
+          perror("Failed to send a message");
+
+  }
+
+
+  close(fd);
+
+  close(sockFd);
+
+  return 0;
 
 }
