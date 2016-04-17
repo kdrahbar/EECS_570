@@ -213,7 +213,7 @@ def bandwidth_plot(input_file):
     fig = plt.figure()
     plt.style.use('ggplot')
 
-    fig.suptitle('Bandwidth vs. Filesize', fontsize=13)
+    fig.suptitle('Bandwidth vs. Filesize on GCE', fontsize=13)
     
     plt.ylabel('Bandwidth (Mbps) ', fontsize=12)
     plt.xlabel('File size Mb', fontsize=12)
