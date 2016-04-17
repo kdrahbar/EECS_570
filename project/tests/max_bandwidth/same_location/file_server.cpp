@@ -39,8 +39,8 @@ int main()
   bzero((char *) &server, sizeof(server));
   server.sin_port= htons(PORT);
   server.sin_family = AF_INET;
-  server.sin_addr.s_addr = inet_addr("127.0.0.1");
-  //server.sin_addr.s_addr = INADDR_ANY;
+  //server.sin_addr.s_addr = inet_addr("127.0.0.1");
+  server.sin_addr.s_addr = INADDR_ANY;
 
   if(sockFd < 0)
       printf("Unable to open socket\n");
@@ -81,17 +81,17 @@ int main()
           break;
       }
 
-      printf("bytes read %d\n", bytesRead);
+//      printf("bytes read %d\n", bytesRead);
 
-      printf("receivnig data\n");
+    //  printf("receivnig data\n");
 
-      bytesSent = write(fd, buffer, bytesRead);
+      //bytesSent = write(fd, buffer, bytesRead);
 
 
-      printf("bytes written %d\n", bytesSent);
+     // printf("bytes written %d\n", bytesSent);
 
-      if(bytesSent < 0)
-          perror("Failed to send a message");
+     // if(bytesSent < 0)
+       //   perror("Failed to send a message");
 
   }
 
