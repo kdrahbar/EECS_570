@@ -68,7 +68,7 @@ int main(int argc, char *argv[])
         error("ERROR opening socket");
     
     // inet_pton(AF_INET, "10.128.0.2", &ipv4addr);
-    inet_pton(AF_INET, "10.128.0.3", &ipv4addr);
+    inet_pton(AF_INET, "52.91.61.217", &ipv4addr);
     server = gethostbyaddr(&ipv4addr, sizeof ipv4addr, AF_INET);
     if (server == NULL) {
         error("ERROR, no such host\n");
@@ -114,7 +114,7 @@ int main(int argc, char *argv[])
     std::ofstream logging;
    logging.open("client_timings.txt", std::ios_base::app);
 
-	if (iterator < 100){    
+	if (iterator < 90){    
     roundtrip_time=end.tv_nsec - start.tv_nsec;   
 logging << x*iterator << " " << roundtrip_time << " ns" << std::endl;
 }
