@@ -194,6 +194,33 @@ def distb_plot(input_file):
     plt.plot(h, cdf) # including h here is crucial
     plt.show()
 
+
+def bandwidth_plot(input_file):
+
+    x_vals = []
+    y_vals = []
+    with open(input_file) as f:
+        content = f.readlines()
+    for line in content:
+        line = line.split()
+        x_vals.append(int(line[0])/1000000)
+        print line
+        if "ns" in line:
+            y_vals.append(int(x_vals[-1])/(float(line[1])/1000000000))
+        else:
+            y_vals.append(int(x_vals[-1]/(int(line[1]))))
+
+    fig = plt.figure()
+    plt.style.use('ggplot')
+
+    fig.suptitle('Bandwidth vs. Filesize', fontsize=13)
+    
+    plt.ylabel('Bandwidth (Mbps) ', fontsize=12)
+    plt.xlabel('File size Mb', fontsize=12)
+    
+    plt.plot(x_vals, y_vals) # including h here is crucial
+    plt.show()
+
 if __name__ == "__main__":
     # input_file = "../results/ftrace/CE_client.txt"
     input_file = "../results/ftrace/CE_server.txt"
@@ -203,4 +230,5 @@ if __name__ == "__main__":
     # characterizer.graph_ftrace(10)
     # characterizer.graph_strace(10)
 
-    distb_plot("../tests/latency/same_location/client_timings.txt")
+    # distb_plot("../tests/latency/same_location/client_timings.txt")
+    bandwidth_plot("/Users/kdrahbar/workspaces/EECS_570/project/tests/max_bandwidth/same_location/bandwidth_timings.txt")
